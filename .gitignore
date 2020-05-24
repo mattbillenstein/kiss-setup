@@ -1,0 +1,6 @@
+kiss-chroot*
+kiss.img
+root
+
+# vim
+*.swp

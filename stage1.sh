@@ -6,17 +6,16 @@ ROOT="/dev/loop7p1"
 set -eo pipefail
 
 sudo umount root || true
-
 sudo losetup -d $LOOP || true
 
 sudo rm -fR root
 mkdir root
 
-rm -f diskimage
+rm -f kiss.img
 
-dd if=/dev/zero of=diskimage bs=1G count=8
+dd if=/dev/zero of=kiss.img bs=1G count=8
 
-fdisk diskimage <<EOF
+fdisk kiss.img <<EOF
 o
 n
 p
@@ -27,7 +26,7 @@ a
 w
 EOF
 
-sudo losetup -v -P $LOOP diskimage
+sudo losetup -v -P $LOOP kiss.img
 sudo mkfs.ext4 $ROOT
 sudo mount $ROOT root
 
@@ -54,3 +53,8 @@ sudo cp stage2.sh root/
 echo "Run ./stage2.sh in the chroot..."
 
 sudo ./kiss-chroot ./root
+
+sudo umount root
+sudo losetup -d $LOOP
+
+echo "Success!"

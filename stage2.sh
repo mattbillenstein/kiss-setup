@@ -254,7 +254,7 @@ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL_VERSION}.tar.xz
 #$   tar xvf KERNEL_SOURCE.tar.??                                |
 #$   cd linux-*                                                  |
 
-tar xvf linux-${KERNEL_VERSION}.tar.xz
+tar xf linux-${KERNEL_VERSION}.tar.xz
 cd linux-${KERNEL_VERSION}
 
 #|                                                               |
@@ -312,7 +312,7 @@ make defconfig
 #|   # '-j $(nproc)' does a parallel build using all cores.      |
 #$   make -j "$(nproc)"                                          |
 
-make -j4
+make -j $(nproc)
 
 #|                                                               |
 #|                                                               |
@@ -390,7 +390,7 @@ kiss install grub
 #$   grub-mkconfig -o /boot/grub/grub.cfg                        |
 
 grub-install $LOOP
-grub-mkconfig -o /boot/grub/grub.cfg                        |
+grub-mkconfig -o /boot/grub/grub.cfg
 
 sed -i -e 's:/dev/loop[^ ]*:/dev/sda1:g' /boot/grub/grub.cfg
 
@@ -513,3 +513,13 @@ kiss install baseinit
 #|                                                               |
 #|                                                               |
 #+---------------------------------------------------------------+
+
+# cleanup
+rm stage2.sh
+rm -r /root/.cache
+
+# zero unused disk blocks so we compress well...
+dd if=/dev/zero of=foo bs=1M || true
+rm foo
+
+echo "Stage2 complete, please exit this chroot..."
