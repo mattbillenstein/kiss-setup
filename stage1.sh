@@ -46,7 +46,7 @@ if [ "$(sha256sum kiss-chroot | awk '{print $1}')" != "774c6f31cc938acae1df87cc8
     exit 1
 fi
 
-sudo tar xvf kiss-chroot.tar.xz -C root --strip-components 1
+sudo tar xf kiss-chroot.tar.xz -C root --strip-components 1
 
 sudo cp stage2.sh root/
 
