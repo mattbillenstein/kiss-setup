@@ -519,7 +519,7 @@ rm stage2.sh
 rm -r /root/.cache
 
 # zero unused disk blocks so we compress well...
-dd if=/dev/zero of=foo bs=1M || true
+dd if=/dev/zero of=foo bs=1M 2>/dev/null || true
 rm foo
 
 echo "Stage2 complete, please exit this chroot..."
