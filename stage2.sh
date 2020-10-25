@@ -4,6 +4,20 @@ LOOP="/dev/loop7"
 
 set -eo pipefail
 
+# Set KISS_PATH and clone main repo
+cd /root
+cat > .profile <<EOF
+export KISS_PATH="\$HOME/repos/repo/core:\$HOME/repos/repo/extra:\$HOME/repos/repo/xorg"
+export KISS_SU="su"
+EOF
+
+. ./.profile
+
+mkdir repos
+cd repos
+git clone https://github.com/kisslinux/repo
+cd /root
+
 #+---------------------------------------------------------------+
 #|                                                               |
 #|                  ENABLE REPOSITORY SIGNING                    |
@@ -515,7 +529,7 @@ kiss install baseinit
 #+---------------------------------------------------------------+
 
 # cleanup
-rm stage2.sh
+rm /stage2.sh
 rm -r /root/.cache
 
 # zero unused disk blocks so we compress well...

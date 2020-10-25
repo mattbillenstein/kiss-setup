@@ -5,7 +5,7 @@ set -eo pipefail
 LOOP="/dev/loop7"
 ROOT="/dev/loop7p1"
 
-VERSION="2020.7"
+VERSION="2020.9-2"
 if [ "$1" != "" ]; then
     VERSION="$1"
 fi
